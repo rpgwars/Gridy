@@ -1,0 +1,41 @@
+<class-diagram version="1.0.10" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <enumeration id="1" corner="BOTTOM_RIGHT" language="java" name="pbi.computations.function.EdgeBaseFunctions" 
+    project="trunkInz" file="/trunkInz/src/pbi/computations/function/EdgeBaseFunctions.java" binary="false">    
+    <position height="-1" width="-1" x="765" y="173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="2" corner="BOTTOM_RIGHT" language="java" name="pbi.computations.function.PointBaseFunctions" 
+    project="trunkInz" file="/trunkInz/src/pbi/computations/function/PointBaseFunctions.java" binary="false">    
+    <position height="-1" width="-1" x="362" y="171"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="3" corner="BOTTOM_RIGHT" language="java" name="pbi.computations.function.InteriorBaseFunction" 
+    project="trunkInz" file="/trunkInz/src/pbi/computations/function/InteriorBaseFunction.java" binary="false">    
+    <position height="-1" width="-1" x="751" y="376"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="4" corner="BOTTOM_RIGHT" language="java" name="pbi.computations.function.FaceBaseFunctions" 
+    project="trunkInz" file="/trunkInz/src/pbi/computations/function/FaceBaseFunctions.java" binary="false">    
+    <position height="-1" width="-1" x="360" y="385"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="true" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
