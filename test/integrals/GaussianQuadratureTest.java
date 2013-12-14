@@ -13,7 +13,7 @@ import pbi.computations.integrals.GaussianQuadrature;
 
 public class GaussianQuadratureTest {
 
-	
+	/*
 	GaussianQuadrature integrator; 
 	
 	@Before
@@ -55,6 +55,6 @@ public class GaussianQuadratureTest {
 		assertEquals(integrator.definiteTripleIntegral(1, 2, 3, 4, 5, 6, function),(double)1097/24,0.005);  
 		
 	}
-	
+	*/
 	
 }

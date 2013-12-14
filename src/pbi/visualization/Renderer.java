@@ -1,5 +1,5 @@
 package pbi.visualization;
-
+/*
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -27,9 +27,7 @@ import static javax.media.opengl.GL.*; // GL constants
 import static javax.media.opengl.GL2.*; // GL2 constants
 //http://stackoverflow.com/questions/1732117/jogl-glu-gluunproject-always-returning-0-0 
 
-/**
- * JOGL 2.0 Example 2: Rotating 3D Shapes (GLCanvas)
- */
+
 @SuppressWarnings("serial")
 public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 		MouseListener, MouseMotionListener {
@@ -66,7 +64,7 @@ public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 	private double[] modelViewMatrix = new double[16];
 	private int[] viewPort = new int[4];
 
-	/** Constructor to setup the GUI for this Component */
+	
 	public Renderer(DrawableCubeUtils drawableCubeUtils) {
 
 		this.addGLEventListener(this);
@@ -128,10 +126,7 @@ public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 
 	// ------ Implement methods declared in GLEventListener ------
 
-	/**
-	 * Called back immediately after the OpenGL context is initialized. Can be
-	 * used to perform one-time initialization. Run only once.
-	 */
+	
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL graphics context
@@ -148,10 +143,7 @@ public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 		this.gl = gl;
 	}
 
-	/**
-	 * Call-back handler for window re-size event. Also called when the drawable
-	 * is first set to visible.
-	 */
+
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
@@ -180,9 +172,7 @@ public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 
 	}
 
-	/**
-	 * Called back by the animator to perform rendering.
-	 */
+
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
@@ -494,4 +484,4 @@ public class Renderer extends GLCanvas implements GLEventListener, KeyListener,
 	public void mouseMoved(MouseEvent e) {
 
 	}
-}
+}*/

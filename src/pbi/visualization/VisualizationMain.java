@@ -20,99 +20,93 @@ import pbi.computations.part.ReferenceCube;
 import pbi.computations.partitions.ReferencePartitioner;
 
 
+import java.io.IOException;
+import java.util.List;
 
-public class VisualizationMain {
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.*;
 
-	static ReferencePartitioner x;
+public class VisualizationMain extends HttpServlet{
 
-	private static final int FPS = 60; // animator's target frames per second
+	private boolean computationsOn = false; 
+	
+	private synchronized boolean computationsOn(){
+		if(!computationsOn) {
+			computationsOn = true; 
+			return false; 
+		}
+		return true; 
+			
+	}
+	
+	private synchronized void computationsOff(){ 
+		computationsOn = false; 
+	}
 
-	public static void main(String[] args) {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+    	
+    	if(computationsOn()){
+    		resp.getWriter().print("Obliczenia w trakcie\n");
+    		for(String str : log)
+    			resp.getWriter().println(str);
+    		
+    	}
+    	else{
+    		resp.getWriter().print("rozpoczynam obliczenia\n");
+    		startComputations("out.dat", 0.00005);
+    	}
 
-		ReferenceCube initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0,
+    }
+    
+    List<String> log; 
+    
+    private void startComputations(final String fileName, final double error){
+    	ReferenceCube initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0,
 				0.0, 0, null);
 		ReferencePartitioner p = new ReferencePartitioner(initialCube);
 
-		HAdaptationMultiThreadComputationReferencePartitioner x = new HAdaptationMultiThreadComputationReferencePartitioner(
+		final HAdaptationMultiThreadComputationReferencePartitioner x = new HAdaptationMultiThreadComputationReferencePartitioner(
 				p, 4);
 
-		if (args.length == 2) {
-			System.out.println(new File(".").getAbsolutePath());
-			File f = new File(args[0]);
-			if (!f.exists()) {
-				System.out.println("Data file does not exist");
-				System.exit(0);
-			}
-
-			initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0,
-					null);
-			p = new ReferencePartitioner(initialCube);
-
-			x = new HAdaptationMultiThreadComputationReferencePartitioner(p, 4);
-
-			try {
-
-				x.startAdaptiveMultiThreadComputation(
-						new DataStructure(args[0]),
-						Double.parseDouble(args[1]), 5);
-
-			} catch (NumberFormatException ex) {
-				System.out.println("Wrong number format (second argument) "
-						+ args[1]);
-				System.exit(0);
-			}
-
+		log = x.getLog();
+		System.out.println(new File(".").getAbsolutePath());
+		File f = new File(fileName);
+		if (!f.exists()) {
+			System.out.println("Data file does not exist");
+			System.exit(0);
 		}
+		
+		initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0,
+				null);
+		p = new ReferencePartitioner(initialCube);
 
-		else {
-
-			System.out
-					.println("Enter a number from 1 to 3 to show example visualization\n"
-							+ "1) (x>=0) 2x (x<0) 2*cos(2*x)\n"
-							+ "2) x*x*x + y*y*y + z*z*z + 1\n"
-							+ "3) 3*x*x + 2*x*z - 4*y + x*x*y\n");
-			BufferedReader bufferRead = new BufferedReader(
-					new InputStreamReader(System.in));
-
-			int nr = 1;
-			try {
-				String s = bufferRead.readLine();
-				nr = Integer.parseInt(s);
-			} catch (IOException e) {
-				System.exit(0);
-			} catch (NumberFormatException ex) {
-				System.exit(0);
+		Thread worker = new Thread(){
+			@Override
+			public void run() {
+				x.startAdaptiveMultiThreadComputation(new DataStructure(fileName),error, 5);
+				computationsOff();
 			}
+		};
+		worker.start();
 
-			initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0,
-					null);
-			p = new ReferencePartitioner(initialCube);
-			x = new HAdaptationMultiThreadComputationReferencePartitioner(p, 4);
+    }
 
-			switch (nr) {
-			case 1:
-				initialCube = new ReferenceCube(-3.0, 3.0, 3.0, 3.0, -3.0,
-						-3.0, 0, null);
-				p = new ReferencePartitioner(initialCube);
-				x = new HAdaptationMultiThreadComputationReferencePartitioner(
-						p, 4);
-				x.startAdaptiveMultiThreadComputation(
-						new ExampleFunctionVisualization4(), 0.01, 20);
-				break;
-			case 2:
-				x.startAdaptiveMultiThreadComputation(
-						new ExampleFunctionVisualization2(), 0.1, 20);
-				break;
-			case 3:
-				x.startAdaptiveMultiThreadComputation(
-						new ExampleFunctionElementSpace2(), 0.01, 20);
-				break;
-			default:
-				System.exit(0);
-			}
+	public static void main(String[] args) throws Exception {
+		
+				
+        Server server = new Server(Integer.valueOf(System.getenv("PORT")));
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
+        server.setHandler(context);
+        context.addServlet(new ServletHolder(new VisualizationMain()),"/*");
+        server.start();
+        server.join();
 
-		}
-		//zz
+	
 
 	}
 	/*

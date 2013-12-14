@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import pbi.computations.data.InterpolatedFunction;
@@ -99,6 +100,8 @@ public class HAdaptationMultiThreadComputationReferencePartitioner {
 		return tierMaxError;
 	}
 
+	List<String> log = Collections.synchronizedList(new ArrayList<String>());
+	
 	public void startAdaptiveMultiThreadComputation(
 			InterpolatedFunction interpolatedFunction, double desiredErrorRate,
 			int maxLevelOfDivision) {
@@ -140,14 +143,21 @@ public class HAdaptationMultiThreadComputationReferencePartitioner {
 				//rr+=cc.getError(); 
 			}
 			System.out.println("iteration total error: " + rr);
+			log.add("Kolejna iteracja:");
 			ReferenceCube.write(referencePartitioner.getCubes().size());
+			log.add("rozmiar siatki: " + referencePartitioner.getCubes().size());
 			System.out.println(referencePartitioner.getCubes().size());
 			System.out.println("max " + maxLvl);
+			log.add("maksymalny element " + referencePartitioner.getCubes().size());
 
 			cubesToCompute = referencePartitioner
 					.adaptMesh(interpolatedFunction);
 		}
 		
+	}
+	
+	public List<String> getLog(){
+		return log;
 	}
 
 }
