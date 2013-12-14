@@ -57,7 +57,7 @@ public class VisualizationMain extends HttpServlet{
     	}
     	else{
     		resp.getWriter().print("rozpoczynam obliczenia\n");
-    		startComputations("out.dat", 0.00005);
+    		startComputations("sixHalfBalls.dat", 0.00005);
     	}
 
     }
