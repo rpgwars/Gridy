@@ -87,7 +87,7 @@ public class VisualizationMain extends HttpServlet{
 		Thread worker = new Thread(){
 			@Override
 			public void run() {
-				x.startAdaptiveMultiThreadComputation(new DataStructure(fileName),error, 5);
+				x.startAdaptiveMultiThreadComputation(new DataStructure(fileName),error, 4);
 				computationsOff();
 			}
 		};
