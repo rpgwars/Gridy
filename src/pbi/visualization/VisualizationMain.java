@@ -15,7 +15,6 @@ import pbi.computations.data.DataStructure;
 import pbi.computations.data.ExampleFunctionElementSpace2;
 import pbi.computations.data.ExampleFunctionVisualization2;
 import pbi.computations.data.ExampleFunctionVisualization4;
-import pbi.computations.data.InterpolatedFunction;
 import pbi.computations.data.SimpleFunction;
 import pbi.computations.part.ReferenceCube;
 import pbi.computations.partitions.ReferencePartitioner;
@@ -45,19 +44,19 @@ public class VisualizationMain extends HttpServlet{
 	private synchronized void computationsOff(){ 
 		computationsOn = false; 
 	}
-	String wyniki = "";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
     	
     	if(computationsOn()){
-    		resp.getWriter().print("Obliczenia w trakcie\n" + wyniki);
+    		resp.getWriter().print("Obliczenia w trakcie\n");
     		for(String str : log)
     			resp.getWriter().println(str);
     		
     	}
     	else{
-    		resp.getWriter().print("rozpoczynam obliczenia\n" + wyniki);
+    		resp.getWriter().print("rozpoczynam obliczenia\n");
     		startComputations("sixHalfBalls.dat", 0.00005);
     	}
 
@@ -68,7 +67,7 @@ public class VisualizationMain extends HttpServlet{
     private void startComputations(final String fileName, final double error){
     	ReferenceCube initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0,
 				0.0, 0, null);
-		final ReferencePartitioner p = new ReferencePartitioner(initialCube);
+		ReferencePartitioner p = new ReferencePartitioner(initialCube);
 
 		final HAdaptationMultiThreadComputationReferencePartitioner x = new HAdaptationMultiThreadComputationReferencePartitioner(
 				p, 4);
@@ -83,44 +82,14 @@ public class VisualizationMain extends HttpServlet{
 		
 		initialCube = new ReferenceCube(0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0,
 				null);
-		//p = new ReferencePartitioner(initialCube);
+		p = new ReferencePartitioner(initialCube);
 
 		Thread worker = new Thread(){
 			@Override
 			public void run() {
-				x.startAdaptiveMultiThreadComputation(new InterpolatedFunction() {
-					
-					@Override
-					public double computeValue(double x, double y, double z) {
-						return 2;
-					}
-					
-					@Override
-					public double computeDzValue(double x, double y, double z) {
-						// TODO Auto-generated method stub
-						return 0;
-					}
-					
-					@Override
-					public double computeDyValue(double x, double y, double z) {
-						// TODO Auto-generated method stub
-						return 0;
-					}
-					
-					@Override
-					public double computeDxValue(double x, double y, double z) {
-						// TODO Auto-generated method stub
-						return 0;
-					}
-				},error, 4);
+				x.startAdaptiveMultiThreadComputation(new DataStructure(fileName),error, 4);
 				computationsOff();
-				for(ReferenceCube rc : p.getCubes()){
-					for(double d : rc.getCooficients())
-						wyniki += "d ";
-					wyniki += "\n";
-				}
 			}
-			
 		};
 		worker.start();
 
